@@ -1,4 +1,4 @@
-(ns rabbit-test.core
+(ns running.mq.rabbitmq
   (:import (com.rabbitmq.client ConnectionFactory)))
 
 (defn new-connection [host]

@@ -1,3 +1,4 @@
+(ns running.common.queue)
 
 (defn power [base n]
   (loop [ r 1 x 1] (if (> x n) r (recur (* r base) (inc x)))))

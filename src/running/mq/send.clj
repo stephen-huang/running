@@ -1,5 +1,5 @@
-(ns rabbit-test.send
-  (:use rabbit-test.core))
+(ns running.mq.send
+  (:use running.mq.rabbitmq))
 
 (def Q_name "hello")
 

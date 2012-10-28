@@ -1,6 +1,7 @@
-(ns rabbit-test.rev
-  (:use rabbit-test.core)
-  (:use clojure.contrib str-utils)
+(ns running.mq.receive
+  (:use running.mq.rabbitmq)
+  ;(:use clojure.contrib str-utils)
+  ;(use '[clojure.contrib.str-utils :only (str-join)])
   (:import (com.rabbitmq.client QueueingConsumer)))
 
 (defn delivery-from [channel consumer]
@@ -25,6 +26,8 @@
       (cons message (lazy-message-seq channel consumer)))))
 
 (defn message-seq [queue-name]
+  (println "waiting for message...")
+  (println *rabbit-connection* )
   (let [channel (.createChannel *rabbit-connection* )
         consumer (consumer-for channel queue-name)]
     (lazy-message-seq channel consumer)))
@@ -33,18 +36,18 @@
   (doseq [message (message-seq queue-name)]
     (handler message)))
 
-(defn print-two-messages [messages]
-  (println (str-join "::" messages)))
+(defn- print-two-messages [messages]
+  (println (clojure.string/join "::" messages)))
 
+;receive messages one by one
 (defn -main1 []
-  (println "waiting...")
   (with-rabbit ["localhost"]
-    ;(println (next-message-from "hello"))
-    (println (receive-mutilple "hello" println))
-    ))
+    ;(next-message-from "hello")
+    (println (receive-mutilple "hello" println))))
 
+;receive messages in pair
 (defn -main []
-  (with-rabbit ["localhost"])
+  (with-rabbit ["localhost"]
     (let [message-pairs (partition 2 (message-seq "hello"))]
       (doseq [message-pair message-pairs]
-        (print-two-messages message-pair))))
+        (print-two-messages message-pair)))))

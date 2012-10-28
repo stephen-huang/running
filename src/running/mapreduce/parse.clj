@@ -1,4 +1,4 @@
-(ns running.core
+(ns running.mapreduce.parse
   ;(:use clojure.contrib.io)
   (:import
   (java.io BufferedReader)
@@ -41,5 +41,5 @@
 
 (defn -main []
   ;(word-count "words.txt")
-  (map-reduce parse_line reduce-parsed-lines (read-lines "words.txt"))
+  (map-reduce parse_line reduce-parsed-lines (read-lines "src/running/pworker/parse.clj"))
   )

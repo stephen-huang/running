@@ -1,4 +1,4 @@
-(ns running.log
+(ns running.mq.log
   (:use clojure.contrib.io))
 
 (defn record-start? [log-line]

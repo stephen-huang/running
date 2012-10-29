@@ -19,7 +19,3 @@
 
 (defn send-mutilple [] ())
 
-(defn -main []
-  (with-rabbit ["localhost"]
-    (send-message "hello" "Hello World "))
-  (println "done sending"))

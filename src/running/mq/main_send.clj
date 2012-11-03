@@ -1,5 +1,5 @@
-(ns running.mq.send_main
-  (:use running.mq.send))
+(ns running.mq.main-send
+  (:use running.mq.send running.mq.rabbitmq))
 
 (defn -main []
   (with-rabbit ["localhost"]

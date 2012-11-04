@@ -1,16 +1,14 @@
 (ns running.mq.send
-  (:use running.mq.rabbitmq))
+  (:use running.mq.rabbitmq running.mq.config))
 
-;(defn -main []
-;  (let[con (new-connection "localhost")
-;      channel (.createChannel con)
-;      message "Hello World"]
-;      (.queueDeclare channel Q_name false false false nil)
-;      (.basicPublish channel "" Q_name  nil (.getBytes message))
-;      (println (str "[x] Sent '" message "'")))
-;  )
-(defn send-message [routing-key message-object]
-  (with-open [channel (.createChannel *rabbit-connection* )]
-    (.basicPublish channel "" routing-key nil (.getBytes (str message-object)))))
+(defn send-message
+  ([routing-key message-object]
+    (send-message DEFAULT-EXCHANGE-NAME routing-key message-object false))
+  ([exchange-name routing-key message-object is-multicast]
+    (with-open [channel (.createChannel *rabbit-connection* )]
+      (.exchangeDeclare channel exchange-name (if is-multicast "fanout" "direct"))
+      ;(.queueDeclare channel routing-key)
+      (.queueDeclare channel routing-key false false false nil)
+      (.basicPublish channel exchange-name routing-key nil (.getBytes (str message-object))))))
 
 

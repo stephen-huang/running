@@ -7,7 +7,7 @@
     (handler message)))
 
 ;receive messages one by one
-(defn -main1 []
+(defn -main []
   (with-rabbit ["localhost"]
     ;(next-message-from "hello")
     (receive-mutilple "hello" println)))
@@ -16,7 +16,7 @@
 (defn- print-two-messages [messages]
   (println (clojure.string/join "::" messages)))
 
-(defn -main []
+(defn -main1 []
   (with-rabbit ["localhost"]
     (let [message-pairs (partition 2 (message-seq "hello"))]
       (doseq [message-pair message-pairs]
